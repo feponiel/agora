@@ -48,7 +48,7 @@ class RegisterMemberTest {
   @Test
   void shouldRegisterMemberWhenDataIsValid() {
     String name = "Test User";
-    String username = "test user";
+    String username = "testuser";
     String email = "user@test.com";
     String password = "123456";
 
