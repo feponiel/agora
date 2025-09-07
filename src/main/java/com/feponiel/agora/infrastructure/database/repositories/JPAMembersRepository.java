@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.feponiel.agora.core.valueobjects.UniqueEntityId;
 import com.feponiel.agora.domain.forum.application.repositories.MembersRepository;
 import com.feponiel.agora.domain.forum.business.entities.Member;
 import com.feponiel.agora.infrastructure.database.entities.JPAMember;
@@ -26,6 +27,16 @@ public class JPAMembersRepository implements MembersRepository {
     JPAMember memberModel = memberMapper.toJPA(member);
     
     entityManager.persist(memberModel);
+  }
+
+  @Override
+  public Optional<Member> findById(UniqueEntityId id) {
+    return entityManager.createQuery(
+      "SELECT s FROM JPAMember s WHERE s.id = :id", JPAMember.class)
+      .setParameter("id", id.getValue())
+      .getResultStream()
+      .findFirst()
+      .map(memberMapper::toDomain);
   }
 
   @Override
